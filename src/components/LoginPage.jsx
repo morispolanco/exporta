@@ -1,25 +1,40 @@
 import { useState } from 'react';
 
-export default function LoginPage({ onLogin }) {
+export default function LoginPage({ onLogin, onRegister }) {
+  const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onLogin(username, password)) {
-      setError('');
+    if (isRegistering) {
+      if (onRegister(username, password)) {
+        setIsRegistering(false);
+        setError('');
+        alert('Registro exitoso. Ahora puedes iniciar sesión.');
+      } else {
+        setError('El usuario ya existe o no es válido.');
+      }
     } else {
-      setError('Credenciales incorrectas o cuenta de demo agotada.');
+      if (onLogin(username, password)) {
+        setError('');
+      } else {
+        setError('Credenciales incorrectas o cuenta agotada.');
+      }
     }
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <div className="modal-icon">🔒</div>
-        <h2 className="modal-title">Acceso AgroExport</h2>
-        <p className="modal-desc">Ingresa tus credenciales para acceder a la plataforma de inteligencia exportadora.</p>
+        <div className="modal-icon">{isRegistering ? '📝' : '🔒'}</div>
+        <h2 className="modal-title">{isRegistering ? 'Registro de Usuario' : 'Acceso AgroExport'}</h2>
+        <p className="modal-desc">
+          {isRegistering 
+            ? 'Regístrate para obtener 30 consultas gratuitas de inteligencia exportadora.' 
+            : 'Ingresa tus credenciales para acceder a la plataforma.'}
+        </p>
         
         <form onSubmit={handleSubmit}>
           <div className="modal-field">
@@ -43,8 +58,18 @@ export default function LoginPage({ onLogin }) {
             />
           </div>
           {error && <p className="modal-error" style={{ marginBottom: '16px' }}>{error}</p>}
-          <button type="submit" className="btn-primary btn-full">Iniciar Sesión</button>
+          <button type="submit" className="btn-primary btn-full">
+            {isRegistering ? 'Registrarse' : 'Iniciar Sesión'}
+          </button>
         </form>
+
+        <button 
+          onClick={() => { setIsRegistering(!isRegistering); setError(''); }}
+          className="modal-link"
+          style={{ background: 'none', border: 'none', width: '100%', cursor: 'pointer' }}
+        >
+          {isRegistering ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate aquí'}
+        </button>
       </div>
     </div>
   );

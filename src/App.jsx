@@ -12,6 +12,16 @@ function App() {
   const [user, setUser] = useState(null)
   const [isAdminMode, setIsAdminMode] = useState(false)
 
+  const handleRegister = (username, password) => {
+    const users = JSON.parse(localStorage.getItem('expo_users') || '[]')
+    if (users.find(u => u.username === username) || username === 'mp' || username === 'demo') {
+      return false
+    }
+    const updated = [...users, { username, password, role: 'user', queries: 0 }]
+    localStorage.setItem('expo_users', JSON.stringify(updated))
+    return true
+  }
+
   const handleLogin = (username, password) => {
     // Admin check
     if (username === 'mp' && password === 'Mita1962') {
@@ -35,8 +45,14 @@ function App() {
     const users = JSON.parse(localStorage.getItem('expo_users') || '[]')
     const found = users.find(u => u.username === username && u.password === password)
     if (found) {
-      setUser({ username, role: 'user' })
-      return true
+      if (found.queries < 30) {
+        setUser(found)
+        return true
+      } else {
+        // Auto-delete if limit reached
+        const updated = users.filter(u => u.username !== username)
+        localStorage.setItem('expo_users', JSON.stringify(updated))
+      }
     }
 
     return false
@@ -48,7 +64,7 @@ function App() {
   }
 
   if (!user) {
-    return <LoginPage onLogin={handleLogin} />
+    return <LoginPage onLogin={handleLogin} onRegister={handleRegister} />
   }
 
   if (isAdminMode && user.role === 'admin') {

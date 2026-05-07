@@ -72,6 +72,7 @@ export default function AdminPage({ onBack }) {
             <thead>
               <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
                 <th style={{ textAlign: 'left', padding: '12px', color: 'var(--color-text-muted)' }}>Usuario</th>
+                <th style={{ textAlign: 'left', padding: '12px', color: 'var(--color-text-muted)' }}>Consultas</th>
                 <th style={{ textAlign: 'left', padding: '12px', color: 'var(--color-text-muted)' }}>Acciones</th>
               </tr>
             </thead>
@@ -79,8 +80,9 @@ export default function AdminPage({ onBack }) {
               {users.map(u => (
                 <tr key={u.username} style={{ borderBottom: '1px solid var(--color-border)' }}>
                   <td style={{ padding: '12px' }}>{u.username}</td>
+                  <td style={{ padding: '12px' }}>{u.queries || 0}/30</td>
                   <td style={{ padding: '12px' }}>
-                    <button style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer' }} onClick={() => removeUser(u.username)}>Eliminar</button>
+                    <button style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer' }} onClick={() => removeUser(u.username)}>Dar de baja</button>
                   </td>
                 </tr>
               ))}

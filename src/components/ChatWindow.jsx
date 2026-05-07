@@ -25,15 +25,32 @@ export default function ChatWindow({ apiKey, user }) {
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
-    // Demo query limit check
-    if (user.role === 'demo') {
-      const stats = JSON.parse(localStorage.getItem('expo_demo_stats') || '{"sessions": 0, "queries": 0}');
-      if (stats.queries >= 10) {
-        setMessages([...messages, { role: 'assistant', content: '⚠️ Has alcanzado el límite de 10 consultas de la cuenta demo. Por favor, contacta al administrador para una cuenta completa.' }]);
-        return;
+    // User/Demo query limit check
+    if (user.role !== 'admin') {
+      if (user.role === 'demo') {
+        const stats = JSON.parse(localStorage.getItem('expo_demo_stats') || '{"sessions": 0, "queries": 0}');
+        if (stats.queries >= 10) {
+          setMessages([...messages, { role: 'assistant', content: '⚠️ Has alcanzado el límite de 10 consultas de la cuenta demo.' }]);
+          return;
+        }
+        stats.queries += 1;
+        localStorage.setItem('expo_demo_stats', JSON.stringify(stats));
+      } else {
+        const users = JSON.parse(localStorage.getItem('expo_users') || '[]');
+        const userIdx = users.findIndex(u => u.username === user.username);
+        if (userIdx !== -1) {
+          if (users[userIdx].queries >= 30) {
+            setMessages([...messages, { role: 'assistant', content: '⚠️ Has alcanzado el límite de 30 consultas. Tu cuenta ha sido dada de baja automáticamente.' }]);
+            return;
+          }
+          users[userIdx].queries += 1;
+          localStorage.setItem('expo_users', JSON.stringify(users));
+          
+          if (users[userIdx].queries >= 30) {
+             // Will be deleted on next login attempt or we could force logout here
+          }
+        }
       }
-      stats.queries += 1;
-      localStorage.setItem('expo_demo_stats', JSON.stringify(stats));
     }
 
     const userMessage = { role: 'user', content: input.trim() };
