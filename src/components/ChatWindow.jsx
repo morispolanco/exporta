@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { generateChatResponse } from '../utils/ai';
 
-export default function ChatWindow({ apiKey }) {
+export default function ChatWindow({ apiKey, user }) {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -24,6 +24,17 @@ export default function ChatWindow({ apiKey }) {
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
+
+    // Demo query limit check
+    if (user.role === 'demo') {
+      const stats = JSON.parse(localStorage.getItem('expo_demo_stats') || '{"sessions": 0, "queries": 0}');
+      if (stats.queries >= 10) {
+        setMessages([...messages, { role: 'assistant', content: '⚠️ Has alcanzado el límite de 10 consultas de la cuenta demo. Por favor, contacta al administrador para una cuenta completa.' }]);
+        return;
+      }
+      stats.queries += 1;
+      localStorage.setItem('expo_demo_stats', JSON.stringify(stats));
+    }
 
     const userMessage = { role: 'user', content: input.trim() };
     const newMessages = [...messages, userMessage];

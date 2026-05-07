@@ -1,4 +1,4 @@
-export default function Sidebar() {
+export default function Sidebar({ user, onAdminClick, onLogout }) {
   const modules = [
     {
       id: 1,
@@ -47,6 +47,17 @@ export default function Sidebar() {
             </div>
           ))}
         </div>
+      </div>
+      
+      <div style={{ padding: '24px', borderTop: '1px solid var(--color-border)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>
+          Usuario: <strong style={{ color: '#fff' }}>{user.username}</strong>
+          {user.role === 'demo' && <span style={{ display: 'block', fontSize: '11px', color: 'var(--color-secondary)' }}>Cuenta Demo</span>}
+        </div>
+        {user.role === 'admin' && (
+          <button className="btn-primary" style={{ padding: '8px', fontSize: '13px' }} onClick={onAdminClick}>⚙️ Administración</button>
+        )}
+        <button className="btn-primary" style={{ padding: '8px', fontSize: '13px', background: 'transparent', border: '1px solid var(--color-border)', boxShadow: 'none' }} onClick={onLogout}>Cerrar Sesión</button>
       </div>
     </div>
   );
