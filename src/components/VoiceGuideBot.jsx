@@ -19,8 +19,8 @@ const TOUR_STEPS = [
   },
   {
     target: 'final',
-    text: "Para comenzar, solo necesitas ingresar tu clave de OpenRouter. ¡Estoy listo para trabajar contigo en tu próxima exportación!",
-    btnText: "¡Listo!"
+    text: "¡Ya estamos listos! Estoy aquí para trabajar contigo en tu próxima exportación. ¿En qué puedo ayudarte hoy?",
+    btnText: "¡Comencemos!"
   }
 ];
 
