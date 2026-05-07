@@ -51,7 +51,7 @@ function App() {
         setUser(found)
         return { success: true }
       } else {
-        return { success: false, message: 'Has agotado tus 30 consultas. Para renovar tu cuota ($10 por 30 consultas), contacta a mp@ufm.edu.' }
+        return { success: false, message: 'Has agotado tus 30 consultas. Para renovar tu cuota (Q200 por 30 consultas), contacta a mp@ufm.edu.' }
       }
     }
 
