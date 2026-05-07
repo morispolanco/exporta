@@ -3,6 +3,7 @@ import ApiKeyModal from './components/ApiKeyModal'
 import Sidebar from './components/Sidebar'
 import ChatWindow from './components/ChatWindow'
 
+import LandingPage from './components/LandingPage'
 import LoginPage from './components/LoginPage'
 import AdminPage from './components/AdminPage'
 import VoiceGuideBot from './components/VoiceGuideBot'
@@ -11,6 +12,7 @@ function App() {
   const [apiKey, setApiKey] = useState(import.meta.env.VITE_OPENROUTER_API_KEY || '')
   const [user, setUser] = useState(null)
   const [isAdminMode, setIsAdminMode] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)
 
   const handleRegister = (username, password) => {
     const users = JSON.parse(localStorage.getItem('expo_users') || '[]')
@@ -59,9 +61,14 @@ function App() {
   const logout = () => {
     setUser(null)
     setIsAdminMode(false)
+    setShowLogin(false)
   }
 
-  if (!user) {
+  if (!user && !showLogin) {
+    return <LandingPage onGetStarted={() => setShowLogin(true)} />
+  }
+
+  if (!user && showLogin) {
     return <LoginPage onLogin={handleLogin} onRegister={handleRegister} />
   }
 
