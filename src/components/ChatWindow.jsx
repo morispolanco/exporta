@@ -40,14 +40,14 @@ export default function ChatWindow({ apiKey, user }) {
         const userIdx = users.findIndex(u => u.username === user.username);
         if (userIdx !== -1) {
           if (users[userIdx].queries >= 30) {
-            setMessages([...messages, { role: 'assistant', content: '⚠️ Has alcanzado el límite de 30 consultas. Tu cuenta ha sido dada de baja automáticamente.' }]);
+            setMessages([...messages, { role: 'assistant', content: '⚠️ Has alcanzado el límite de 30 consultas. Para renovar tu cuota ($10 por 30 consultas), por favor contacta al administrador en mp@ufm.edu.' }]);
             return;
           }
           users[userIdx].queries += 1;
           localStorage.setItem('expo_users', JSON.stringify(users));
           
           if (users[userIdx].queries >= 30) {
-             // Will be deleted on next login attempt or we could force logout here
+             setMessages([...messages, { role: 'assistant', content: '✅ Consulta realizada. Esta fue tu última consulta disponible. Para renovar tu cuota ($10 por 30 consultas), contacta a mp@ufm.edu.' }]);
           }
         }
       }

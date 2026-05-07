@@ -17,10 +17,11 @@ export default function LoginPage({ onLogin, onRegister }) {
         setError('El usuario ya existe o no es válido.');
       }
     } else {
-      if (onLogin(username, password)) {
+      const result = onLogin(username, password);
+      if (result.success) {
         setError('');
       } else {
-        setError('Credenciales incorrectas o cuenta agotada.');
+        setError(result.message);
       }
     }
   };

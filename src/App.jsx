@@ -26,7 +26,7 @@ function App() {
     // Admin check
     if (username === 'mp' && password === 'Mita1962') {
       setUser({ username, role: 'admin' })
-      return true
+      return { success: true }
     }
 
     // Demo check
@@ -36,9 +36,9 @@ function App() {
         stats.sessions += 1
         localStorage.setItem('expo_demo_stats', JSON.stringify(stats))
         setUser({ username, role: 'demo' })
-        return true
+        return { success: true }
       }
-      return false
+      return { success: false, message: 'Cuenta demo agotada (máx 10 sesiones/consultas).' }
     }
 
     // Authorized users check
@@ -47,15 +47,13 @@ function App() {
     if (found) {
       if (found.queries < 30) {
         setUser(found)
-        return true
+        return { success: true }
       } else {
-        // Auto-delete if limit reached
-        const updated = users.filter(u => u.username !== username)
-        localStorage.setItem('expo_users', JSON.stringify(updated))
+        return { success: false, message: 'Has agotado tus 30 consultas. Para renovar tu cuota ($10 por 30 consultas), contacta a mp@ufm.edu.' }
       }
     }
 
-    return false
+    return { success: false, message: 'Credenciales incorrectas.' }
   }
 
   const logout = () => {

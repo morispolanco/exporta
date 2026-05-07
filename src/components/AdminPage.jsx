@@ -20,6 +20,12 @@ export default function AdminPage({ onBack }) {
     setNewPassword('');
   };
 
+  const renewUser = (username) => {
+    const updated = users.map(u => u.username === username ? { ...u, queries: 0 } : u);
+    localStorage.setItem('expo_users', JSON.stringify(updated));
+    setUsers(updated);
+  };
+
   const removeUser = (username) => {
     const updated = users.filter(u => u.username !== username);
     localStorage.setItem('expo_users', JSON.stringify(updated));
@@ -81,8 +87,9 @@ export default function AdminPage({ onBack }) {
                 <tr key={u.username} style={{ borderBottom: '1px solid var(--color-border)' }}>
                   <td style={{ padding: '12px' }}>{u.username}</td>
                   <td style={{ padding: '12px' }}>{u.queries || 0}/30</td>
-                  <td style={{ padding: '12px' }}>
-                    <button style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer' }} onClick={() => removeUser(u.username)}>Dar de baja</button>
+                  <td style={{ padding: '12px', display: 'flex', gap: '10px' }}>
+                    <button style={{ background: 'var(--color-primary)', border: 'none', color: '#fff', cursor: 'pointer', padding: '4px 8px', borderRadius: '4px' }} onClick={() => renewUser(u.username)}>Renovar</button>
+                    <button style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer' }} onClick={() => removeUser(u.username)}>Eliminar</button>
                   </td>
                 </tr>
               ))}
