@@ -47,11 +47,11 @@ function App() {
     const users = JSON.parse(localStorage.getItem('expo_users') || '[]')
     const found = users.find(u => u.username === username && u.password === password)
     if (found) {
-      if (found.queries < 30) {
+      if (found.queries < 10) {
         setUser(found)
         return { success: true }
       } else {
-        return { success: false, message: 'Has agotado tus 30 consultas. Para renovar tu cuota (Q200 por 30 consultas), contacta a mp@ufm.edu.' }
+        return { success: false, message: 'Has agotado tus 10 consultas. Para renovar tu cuota (Q200 por 10 consultas), contacta a mp@ufm.edu.' }
       }
     }
 

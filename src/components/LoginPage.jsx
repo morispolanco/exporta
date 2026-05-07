@@ -33,7 +33,7 @@ export default function LoginPage({ onLogin, onRegister }) {
         <h2 className="modal-title">{isRegistering ? 'Registro de Usuario' : 'Acceso AgroExport'}</h2>
         <p className="modal-desc">
           {isRegistering 
-            ? 'Regístrate para obtener 30 consultas gratuitas de inteligencia exportadora.' 
+            ? 'Regístrate para obtener 10 consultas gratuitas de inteligencia exportadora.' 
             : 'Ingresa tus credenciales para acceder a la plataforma.'}
         </p>
         

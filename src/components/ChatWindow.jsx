@@ -39,15 +39,15 @@ export default function ChatWindow({ apiKey, user }) {
         const users = JSON.parse(localStorage.getItem('expo_users') || '[]');
         const userIdx = users.findIndex(u => u.username === user.username);
         if (userIdx !== -1) {
-          if (users[userIdx].queries >= 30) {
-            setMessages([...messages, { role: 'assistant', content: '⚠️ Has alcanzado el límite de 30 consultas. Para renovar tu cuota (Q200 por 30 consultas), por favor contacta al administrador en mp@ufm.edu.' }]);
+          if (users[userIdx].queries >= 10) {
+            setMessages([...messages, { role: 'assistant', content: '⚠️ Has alcanzado el límite de 10 consultas. Para renovar tu cuota (Q200 por 10 consultas), por favor contacta al administrador en mp@ufm.edu.' }]);
             return;
           }
           users[userIdx].queries += 1;
           localStorage.setItem('expo_users', JSON.stringify(users));
           
-          if (users[userIdx].queries >= 30) {
-             setMessages([...messages, { role: 'assistant', content: '✅ Consulta realizada. Esta fue tu última consulta disponible. Para renovar tu cuota (Q200 por 30 consultas), contacta a mp@ufm.edu.' }]);
+          if (users[userIdx].queries >= 10) {
+             setMessages([...messages, { role: 'assistant', content: '✅ Consulta realizada. Esta fue tu última consulta disponible. Para renovar tu cuota (Q200 por 10 consultas), contacta a mp@ufm.edu.' }]);
           }
         }
       }

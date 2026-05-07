@@ -59,7 +59,7 @@ export default function LandingPage({ onGetStarted }) {
           La primera inteligencia artificial especializada en exportaciones de café, cardamomo y banano. Cumplimiento legal, logística y mercados en un solo lugar.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-          <button className="btn-primary" style={{ padding: '16px 40px', fontSize: '18px' }} onClick={onGetStarted}>Empezar ahora — 30 consultas gratis</button>
+          <button className="btn-primary" style={{ padding: '16px 40px', fontSize: '18px' }} onClick={onGetStarted}>Empezar ahora — 10 consultas gratis</button>
         </div>
       </header>
 
